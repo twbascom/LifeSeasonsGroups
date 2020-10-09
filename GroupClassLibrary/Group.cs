@@ -14,6 +14,7 @@ namespace GroupClassLibrary
 
         private const string PromotionPrefix = "G-";
         private const string PromotionDelemeter = "-";
+        private const int RoundingPrecision = 2;
 
         public Group(string groupCode, double retailPrice, Catalog catalog)
         {
@@ -53,11 +54,11 @@ namespace GroupClassLibrary
                 double missingRetailCost = RetailPrice;
                 for (int i = 0; i < ProductsInGroup.Count - 1; i++)
                 {
-                    double discountPercent = ProductsInGroup[i].UnitCost / GroupUnitCost;
-                    ProductsInGroup[i].GroupedRetailCost = RetailPrice * discountPercent;
-                    missingRetailCost -= ProductsInGroup[i].GroupedRetailCost;
+                    double discountPercent = Math.Round(ProductsInGroup[i].UnitCost / GroupUnitCost, RoundingPrecision);
+                    ProductsInGroup[i].GroupedRetailCost = Math.Round(RetailPrice * discountPercent, RoundingPrecision);
+                    missingRetailCost = Math.Round(missingRetailCost - ProductsInGroup[i].GroupedRetailCost, RoundingPrecision);
                 }
-                ProductsInGroup[ProductsInGroup.Count-1].GroupedRetailCost = missingRetailCost;
+                ProductsInGroup[ProductsInGroup.Count - 1].GroupedRetailCost = missingRetailCost;
             }
         }
     }
