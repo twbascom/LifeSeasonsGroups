@@ -5,10 +5,16 @@ namespace GroupClassLibrary
 {
     public class Product
     {
-        public int SKU { get; set; }
+        public int SKU { get; }
         [JsonProperty("Unit Cost")]
-        public double UnitCost { get; set; } = 0;
+        public double UnitCost { get; } = 0;
 
-        public double RetailCost { get; set; } = 0;
+        public double GroupedRetailCost { get; set; } = 0;
+
+        public Product(int SKU, double unitcost)
+        {
+            this.SKU = SKU;
+            this.UnitCost = unitcost;
+        }
     }
 }

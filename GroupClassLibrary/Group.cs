@@ -10,7 +10,7 @@ namespace GroupClassLibrary
         public string GroupCode { get; private set; }
         public Catalog ProductCatalog { get; private set; }
         //public List<int> ProductSKUsInGroup { get; set; } = new List<int>();
-        public List<Product> ProductInGroup { get; set; } = new List<Product>();
+        public List<Product> ProductsInGroup { get; set; } = new List<Product>();
 
         private const string PromotionPrefix = "G-";
         private const string PromotionDelemeter = "-";
@@ -33,26 +33,28 @@ namespace GroupClassLibrary
             var promotionWithoutPrefix = GroupCode.Substring(PromotionPrefix.Length);
             if (promotionWithoutPrefix.Length < 2) throw new Exception($"Promotion text requires two or more SKUs: {GroupCode}");
 
-            ProductSKUsInGroup.Clear();
+            ProductsInGroup.Clear();
             foreach (var productCode in promotionWithoutPrefix.Split(PromotionDelemeter))
             {
-                ProductSKUsInGroup.Add(int.Parse(productCode));
+                var productToCopy = ProductCatalog.Products[int.Parse(productCode)];
+                ProductsInGroup.Add(new Product(productToCopy.SKU, productToCopy.UnitCost));
             }
         }
 
         private void CalculateGroupUnitCost()
         {
             GroupUnitCost = 0;
-            foreach (var sku in ProductSKUsInGroup)
+            foreach (var product in ProductsInGroup)
             {
-                GroupUnitCost += ProductCatalog.Products[sku].UnitCost;
+                GroupUnitCost += ProductCatalog.Products[product.SKU].UnitCost;
             }
             // need skus count to be 2 or more to spreed out a group discount
-            if (ProductSKUsInGroup.Count > 1)
+            if (ProductsInGroup.Count > 1)
             {
-                for (int i = 0; i < ProductSKUsInGroup.Count - 1; i++)
+                for (int i = 0; i < ProductsInGroup.Count - 1; i++)
                 {
-
+                    double discountPercent = ProductsInGroup[i].UnitCost / GroupUnitCost;
+                    ProductsInGroup[i].GroupedRetailCost = GroupRetailPrice * discountPercent;
                 }
             }
         }

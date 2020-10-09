@@ -28,7 +28,8 @@ namespace GroupTests
             var example1 = new Group("G-208-225", 44.99, sampleCatalog);
 
             Assert.AreEqual(50, example1.ProductCatalog.Products.Count, "Expected 50 products in default database.");
-            Assert.AreEqual(2, example1.ProductSKUsInGroup.Count, "Expected 2 products in G-208-225.");
+            Assert.AreEqual(2, example1.ProductsInGroup.Count, "Expected 2 products in G-208-225.");
+            Assert.AreEqual(2, example1.ProductsInGroup.Count, "Expected 2 products in G-208-225.");
 
         }
     }
