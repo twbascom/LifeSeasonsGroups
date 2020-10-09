@@ -31,6 +31,8 @@ namespace GroupTests
             Assert.AreEqual(2, example1.ProductsInGroup.Count, "Expected 2 products in G-208-225.");
             Assert.AreEqual(2, example1.ProductsInGroup.Count, "Expected 2 products in G-208-225.");
 
+            Assert.AreEqual(35.09, example1.ProductsInGroup[0].GroupedRetailCost, "Expected 208 to cost 35.09");
+            Assert.AreEqual(9.90, example1.ProductsInGroup[1].GroupedRetailCost, "Expected 225 to cost 9.90");
         }
     }
 }

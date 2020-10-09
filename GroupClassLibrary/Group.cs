@@ -5,12 +5,12 @@ namespace GroupClassLibrary
 {
     public class Group
     {
-        public double GroupRetailPrice { get; private set; }
+        public double RetailPrice { get; private set; }
         public double GroupUnitCost { get; private set; }
         public string GroupCode { get; private set; }
         public Catalog ProductCatalog { get; private set; }
         //public List<int> ProductSKUsInGroup { get; set; } = new List<int>();
-        public List<Product> ProductsInGroup { get; set; } = new List<Product>();
+        public List<GroupedProduct> ProductsInGroup { get; set; } = new List<GroupedProduct>();
 
         private const string PromotionPrefix = "G-";
         private const string PromotionDelemeter = "-";
@@ -18,7 +18,7 @@ namespace GroupClassLibrary
         public Group(string groupCode, double retailPrice, Catalog catalog)
         {
             this.GroupCode = groupCode;
-            this.GroupRetailPrice = retailPrice;
+            this.RetailPrice = retailPrice;
             this.ProductCatalog = catalog;
 
             ParseGroupCode();
@@ -36,8 +36,7 @@ namespace GroupClassLibrary
             ProductsInGroup.Clear();
             foreach (var productCode in promotionWithoutPrefix.Split(PromotionDelemeter))
             {
-                var productToCopy = ProductCatalog.Products[int.Parse(productCode)];
-                ProductsInGroup.Add(new Product(productToCopy.SKU, productToCopy.UnitCost));
+                ProductsInGroup.Add(new GroupedProduct(ProductCatalog.Products[int.Parse(productCode)]));
             }
         }
 
@@ -51,11 +50,14 @@ namespace GroupClassLibrary
             // need skus count to be 2 or more to spreed out a group discount
             if (ProductsInGroup.Count > 1)
             {
+                double missingRetailCost = RetailPrice;
                 for (int i = 0; i < ProductsInGroup.Count - 1; i++)
                 {
                     double discountPercent = ProductsInGroup[i].UnitCost / GroupUnitCost;
-                    ProductsInGroup[i].GroupedRetailCost = GroupRetailPrice * discountPercent;
+                    ProductsInGroup[i].GroupedRetailCost = RetailPrice * discountPercent;
+                    missingRetailCost -= ProductsInGroup[i].GroupedRetailCost;
                 }
+                ProductsInGroup[ProductsInGroup.Count-1].GroupedRetailCost = missingRetailCost;
             }
         }
     }

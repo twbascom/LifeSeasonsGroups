@@ -9,8 +9,6 @@ namespace GroupClassLibrary
         [JsonProperty("Unit Cost")]
         public double UnitCost { get; } = 0;
 
-        public double GroupedRetailCost { get; set; } = 0;
-
         public Product(int SKU, double unitcost)
         {
             this.SKU = SKU;
