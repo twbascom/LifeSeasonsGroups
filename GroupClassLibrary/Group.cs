@@ -55,8 +55,8 @@ namespace GroupClassLibrary
                 double missingRetailCost = RetailPrice;
                 for (int i = 0; i < ProductsInGroup.Count - 1; i++)
                 {
-                    double discountPercent = Math.Round(ProductsInGroup[i].UnitCost / GroupUnitCost, RoundingPrecision);
-                    ProductsInGroup[i].GroupedRetailCost = Math.Round(RetailPrice * discountPercent, RoundingPrecision);
+                    ProductsInGroup[i].DiscountPercent = Math.Round(ProductsInGroup[i].UnitCost / GroupUnitCost, RoundingPrecision);
+                    ProductsInGroup[i].GroupedRetailCost = Math.Round(RetailPrice * ProductsInGroup[i].DiscountPercent, RoundingPrecision);
                     missingRetailCost = Math.Round(missingRetailCost - ProductsInGroup[i].GroupedRetailCost, RoundingPrecision);
                 }
                 ProductsInGroup[ProductsInGroup.Count - 1].GroupedRetailCost = missingRetailCost;

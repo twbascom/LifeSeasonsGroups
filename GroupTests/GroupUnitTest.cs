@@ -40,27 +40,43 @@ namespace GroupTests
             Assert.AreEqual(35.09, example1.ProductsInGroup[0].GroupedRetailCost, "Expected 208 to cost 35.09");
             Assert.AreEqual(9.90, example1.ProductsInGroup[1].GroupedRetailCost, "Expected 225 to cost 9.90");
 
-
-            var example2 = new Group("G-208-225-237-258", 89.00, sampleCatalog);
-
+            testSumsInGroup(example1);
         }
+
         [TestMethod]
         public void TestGroupingsExample2()
         {
             var sampleCatalog = GetSampleProductsFromFile();
 
-            var example2 = new Group("G-208-225-237-258", 89.00, sampleCatalog);
+            var example2 = new Group("G-201-202-203-204", 89.00, sampleCatalog);
 
             Assert.AreEqual(51, example2.ProductCatalog.Products.Count, "Expected 50 products in default database.");
             Assert.AreEqual(4, example2.ProductsInGroup.Count, "Expected 4 products in G-208-225-237-258.");
 
-            Assert.AreEqual(41.99, example2.ProductsInGroup[0].GroupedRetailCost, "Expected 208 to cost 41.99");
-            Assert.AreEqual(9.99, example2.ProductsInGroup[1].GroupedRetailCost, "Expected 225 to cost 9.99");
-            Assert.AreEqual(9.99, example2.ProductsInGroup[2].GroupedRetailCost, "Expected 237 to cost 9.99");
-            Assert.AreEqual(46.99, example2.ProductsInGroup[3].GroupedRetailCost, "Expected 258 to cost 9.99");
+            Assert.AreEqual(18.51, example2.GroupUnitCost, "Expected group unit cost to be $18.51");
 
+            Assert.AreEqual(0.37, example2.ProductsInGroup[0].DiscountPercent, "Expected 201 to discount to be 37%");
+            Assert.AreEqual(0.1, example2.ProductsInGroup[1].DiscountPercent, "Expected 202 to discount to be 10%");
+            Assert.AreEqual(0.09, example2.ProductsInGroup[2].DiscountPercent, "Expected 203 to discount to be 9%");
+            
+            Assert.AreEqual(32.93, example2.ProductsInGroup[0].GroupedRetailCost, "Expected 201 to cost 32.93");
+            Assert.AreEqual(8.9, example2.ProductsInGroup[1].GroupedRetailCost, "Expected 202 to cost 8.9");
+            Assert.AreEqual(8.01, example2.ProductsInGroup[2].GroupedRetailCost, "Expected 203 to cost 8.01");
+            Assert.AreEqual(39.16, example2.ProductsInGroup[3].GroupedRetailCost, "Expected 204 to cost 39.16");
 
+            testSumsInGroup(example2);
 
+        }
+
+        private void testSumsInGroup(Group example2)
+        {
+            double sum = 0.0;
+            foreach (var product in example2.ProductsInGroup)
+            {
+                sum += product.GroupedRetailCost;
+            }
+
+            Assert.AreEqual(example2.RetailPrice, sum, "Expect sum of products to equal group discount");
         }
     }
 }

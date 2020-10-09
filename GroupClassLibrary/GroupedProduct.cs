@@ -8,6 +8,9 @@ namespace GroupClassLibrary
     {
         public double GroupedRetailCost { get; set; } = 0;
 
+        // track and expose discount percent for test.
+        public double DiscountPercent { get; internal set; }
+
         public GroupedProduct(Product product) : base(product.SKU, product.UnitCost)
         {
         }
