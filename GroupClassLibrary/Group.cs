@@ -48,6 +48,7 @@ namespace GroupClassLibrary
             {
                 GroupUnitCost += ProductCatalog.Products[product.SKU].UnitCost;
             }
+            GroupUnitCost = Math.Round(GroupUnitCost, RoundingPrecision);
             // need skus count to be 2 or more to spreed out a group discount
             if (ProductsInGroup.Count > 1)
             {
