@@ -7,8 +7,8 @@ namespace GroupClassLibrary
     {
         public int SKU { get; set; }
         [JsonProperty("Unit Cost")]
-        public double Cost { get; set; } = 0;
+        public double UnitCost { get; set; } = 0;
 
-        public double retail { get; set; } = 0;
+        public double RetailCost { get; set; } = 0;
     }
 }
