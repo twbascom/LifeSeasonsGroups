@@ -16,16 +16,18 @@ namespace GroupTests
             {
                 JSONSampleData = defaultProductsJSONFile.ReadToEnd();
             }
-            var sampleInventory = new Catalog(JSONSampleData);
-            return sampleInventory;
+            var sampleCatalog = new Catalog(JSONSampleData);
+            return sampleCatalog;
         }
 
         [TestMethod]
         public void TestGroupings()
         {
-            var sampleInventory = GetSampleProductsFromFile();
+            var sampleCatalog = GetSampleProductsFromFile();
 
-            var example1 = new Group("G-208-225", 44.99, sampleInventory);
+            var example1 = new Group("G-208-225", 44.99, sampleCatalog);
+
+            Assert.AreEqual(50, example1.catalog.Products.Count, "Expected 50 products in default database.");
         }
     }
 }
