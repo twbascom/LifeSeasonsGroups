@@ -5,6 +5,7 @@ using System.Text;
 
 namespace GroupClassLibrary
 {
+    // track Product with sku hash
     public class Catalog
     {
         private string productJSON;

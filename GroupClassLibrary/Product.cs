@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 
 namespace GroupClassLibrary
 {
+    // track sku and unitcost for item.
     public class Product
     {
         public int SKU { get; }

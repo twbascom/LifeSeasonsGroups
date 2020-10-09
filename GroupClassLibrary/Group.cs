@@ -5,29 +5,33 @@ namespace GroupClassLibrary
 {
     public class Group
     {
+        // retail price for all products in group
         public double RetailPrice { get; private set; }
+
+        // track group unit cost for test purpose.
         public double GroupUnitCost { get; private set; }
-        public string GroupCode { get; private set; }
+
+        // refrence to product catalog for retrieving unit costs
         public Catalog ProductCatalog { get; private set; }
-        //public List<int> ProductSKUsInGroup { get; set; } = new List<int>();
+
+        // track parsed products for this group
         public List<GroupedProduct> ProductsInGroup { get; set; } = new List<GroupedProduct>();
 
         private const string PromotionPrefix = "G-";
         private const string PromotionDelemeter = "-";
         private const int RoundingPrecision = 2;
 
+        // take groupcode string, retail price, and catalog reference for cost lookup.
         public Group(string groupCode, double retailPrice, Catalog catalog)
         {
-            this.GroupCode = groupCode;
             this.RetailPrice = retailPrice;
             this.ProductCatalog = catalog;
-
-            ParseGroupCode();
-
+            ParseGroupCode(groupCode);
             CalculateGroupUnitCost();
         }
 
-        private void ParseGroupCode()
+        // take input from string and parse into product objects.
+        private void ParseGroupCode(string GroupCode)
         {
             if (!GroupCode.Contains(PromotionPrefix)) throw new Exception($"Promotion text requires prefix: {PromotionPrefix}");
 
@@ -41,6 +45,7 @@ namespace GroupClassLibrary
             }
         }
 
+        // use percent of unit cost to calculate individual product profit
         private void CalculateGroupUnitCost()
         {
             GroupUnitCost = 0;
@@ -49,6 +54,7 @@ namespace GroupClassLibrary
                 GroupUnitCost += ProductCatalog.Products[product.SKU].UnitCost;
             }
             GroupUnitCost = Math.Round(GroupUnitCost, RoundingPrecision);
+
             // need skus count to be 2 or more to spreed out a group discount
             if (ProductsInGroup.Count > 1)
             {

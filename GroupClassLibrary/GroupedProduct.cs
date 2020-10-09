@@ -4,6 +4,7 @@ using System.Text;
 
 namespace GroupClassLibrary
 {
+    // class groups the discount and relative retail cost when in a group.
     public class GroupedProduct : Product
     {
         public double GroupedRetailCost { get; set; } = 0;
